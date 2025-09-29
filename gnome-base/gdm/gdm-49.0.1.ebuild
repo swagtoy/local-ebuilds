@@ -116,6 +116,7 @@ src_prepare() {
 
 	# Show logo when branding is enabled
 	use branding && eapply "${FILESDIR}/${PN}-3.30.3-logo.patch"
+	use !systemd && eapply "${FILESDIR}/gdm-launch-environment-pam-openrc.patch"
 
 	#sed -i 's|have_userdb = false|have_userdb = true|g' meson.build
 	#sed -i 's|greeter_uid_min = 0|greeter_uid_min = 60578|g' meson.build

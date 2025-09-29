@@ -1,0 +1,187 @@
+diff --git a/data/meson.build b/data/meson.build
+index 76b15e92..6acceb45 100644
+--- a/data/meson.build
++++ b/data/meson.build
+@@ -62,69 +62,71 @@ endif
+ 
+ # Next, let's install the necessary systemd scaffolding
+ 
+-install_data(
+-    'gnome.session.conf',
+-    install_dir: systemd_userunitdir / 'gnome-session@gnome.target.d',
+-)
++if is_variable('systemd_userunitdir')
++  install_data(
++      'gnome.session.conf',
++      install_dir: systemd_userunitdir / 'gnome-session@gnome.target.d',
++  )
+ 
+-systemd_service = [
+-  'gnome-session-manager@.service',
+-  'gnome-session-signal-init.service',
+-  'gnome-session-restart-dbus.service',
+-  'gnome-session-monitor.service',
+-]
++  systemd_service = [
++    'gnome-session-manager@.service',
++    'gnome-session-signal-init.service',
++    'gnome-session-restart-dbus.service',
++    'gnome-session-monitor.service',
++  ]
+ 
+-foreach service: systemd_service
+-  configure_file(
+-    input: service + '.in',
+-    output: service,
+-    install: true,
+-    install_dir: systemd_userunitdir,
+-    configuration: {
+-      'libexecdir': session_libexecdir,
+-    },
+-  )
+-endforeach
++  foreach service: systemd_service
++    configure_file(
++      input: service + '.in',
++      output: service,
++      install: true,
++      install_dir: systemd_userunitdir,
++      configuration: {
++        'libexecdir': session_libexecdir,
++      },
++    )
++  endforeach
+ 
+-systemd_target = [
+-  'gnome-session-wayland@.target',
+-  'gnome-session-wayland.target',
+-  'gnome-session@.target',
+-  'gnome-session.target',
+-  'gnome-session-basic-services.target',
+-  'gnome-session-pre.target',
+-  'gnome-session-manager.target',
+-  'gnome-session-initialized.target',
+-  'gnome-session-shutdown.target',
+-  'gnome-session-x11-services.target',
+-  'gnome-session-x11-services-ready.target',
+-]
+-if have_x11
+-  systemd_target += [
+-    'gnome-session-x11@.target',
+-    'gnome-session-x11.target',
++  systemd_target = [
++    'gnome-session-wayland@.target',
++    'gnome-session-wayland.target',
++    'gnome-session@.target',
++    'gnome-session.target',
++    'gnome-session-basic-services.target',
++    'gnome-session-pre.target',
++    'gnome-session-manager.target',
++    'gnome-session-initialized.target',
++    'gnome-session-shutdown.target',
++    'gnome-session-x11-services.target',
++    'gnome-session-x11-services-ready.target',
+   ]
+-endif
++  if have_x11
++    systemd_target += [
++      'gnome-session-x11@.target',
++      'gnome-session-x11.target',
++    ]
++  endif
+ 
+-install_data(
+-  systemd_target,
+-  install_dir: systemd_userunitdir
+-)
++  install_data(
++    systemd_target,
++    install_dir: systemd_userunitdir
++  )
+ 
+-# Install resource limits that are applied to GNOME-launched apps
++  # Install resource limits that are applied to GNOME-launched apps
+ 
+-install_data(
+-  'app-override.scope.conf',
+-  rename: 'override.conf',
+-  install_dir : join_paths(systemd_userunitdir, 'app-gnome-.scope.d')
+-)
++  install_data(
++    'app-override.scope.conf',
++    rename: 'override.conf',
++    install_dir : join_paths(systemd_userunitdir, 'app-gnome-.scope.d')
++  )
+ 
+-# FIXME: https://github.com/systemd/systemd/issues/37104
+-install_data(
+-  'app-override.scope.conf',
+-  rename: 'override.conf',
+-  install_dir : join_paths(systemd_userunitdir, 'app-flatpak-.scope.d')
+-)
++  # FIXME: https://github.com/systemd/systemd/issues/37104
++  install_data(
++    'app-override.scope.conf',
++    rename: 'override.conf',
++    install_dir : join_paths(systemd_userunitdir, 'app-flatpak-.scope.d')
++  )
++endif
+ 
+ # Install some other misc. configuration files
+ 
+diff --git a/meson.build b/meson.build
+index b10c9455..00842df8 100644
+--- a/meson.build
++++ b/meson.build
+@@ -90,20 +90,31 @@ session_deps = [
+   dependency('json-glib-1.0', version: '>= 0.10')
+ ]
+ 
+-libsystemd_dep = dependency('libsystemd', version: '>= 209', required: true)
+-config_h.set('SYSTEMD_STRICT_ENV',
+-              libsystemd_dep.version().version_compare('< 248'))
++libsystemd_dep = dependency('libsystemd', version: '>= 209', required: false)
++if libsystemd_dep.found()
++  config_h.set('SYSTEMD_STRICT_ENV',
++                libsystemd_dep.version().version_compare('< 248'))
++  session_bin_deps = session_deps + [
++    libsystemd_dep,
++    dependency('gio-unix-2.0', version: glib_req_version),
++  ]
++else
++  elogind_dep = dependency('libelogind', version: '>=209', required: true)
++  session_bin_deps = session_deps + [
++    elogind_dep,
++    dependency('gio-unix-2.0', version: glib_req_version),
++  ]
++endif
+ 
+-session_bin_deps = session_deps + [
+-  libsystemd_dep,
+-  dependency('gio-unix-2.0', version: glib_req_version),
+-]
++message(session_bin_deps)
+ 
+-systemd_userunitdir = get_option('systemduserunitdir')
+-if systemd_userunitdir == ''
+-  systemd_dep = dependency('systemd', version: '>= 242', required: true)
+-  systemd_userunitdir = systemd_dep.get_variable(pkgconfig: 'systemduserunitdir',
+-                                                 pkgconfig_define: ['prefix', session_prefix])
++if libsystemd_dep.found()
++  systemd_userunitdir = get_option('systemduserunitdir')
++  if systemd_userunitdir == ''
++    systemd_dep = dependency('systemd', version: '>= 242', required: true)
++    systemd_userunitdir = systemd_dep.get_variable(pkgconfig: 'systemduserunitdir',
++                                                   pkgconfig_define: ['prefix', session_prefix])
++  endif
+ endif
+ 
+ configure_file(
+@@ -141,7 +152,6 @@ summary_options = {
+  'Use *_DISABLE_DEPRECATED': get_option('deprecation_flags'),
+  'Build Docbook': get_option('docbook'),
+  'Build manpages': get_option('man'),
+- 'Systemd Units Directory': systemd_userunitdir,
+ }
+ 
+ summary_dirs = {

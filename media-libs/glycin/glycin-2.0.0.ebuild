@@ -358,7 +358,7 @@ RDEPEND="
 	>=media-libs/lcms-2.12:=
 	media-libs/openjpeg:=
 	gnome-base/librsvg:=
-	media-libs/glycin-loaders[heif]
+	media-libs/glycin-loaders[heif,jpegxl]
 "
 
 DEPEND="${RDEPEND}

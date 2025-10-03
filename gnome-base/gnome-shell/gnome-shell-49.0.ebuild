@@ -22,9 +22,9 @@ RESTRICT="!test? ( test )"
 DEPEND="
 	>=gnome-extra/evolution-data-server-3.46.0:=
 	>=app-crypt/gcr-3.90.0:4=[introspection]
-	>=dev-libs/glib-2.68:2
+	>=dev-libs/glib-2.86:2
 	>=dev-libs/gobject-introspection-1.86.0:=
-	>=dev-libs/gjs-1.73.1[cairo(+)]
+	>=dev-libs/gjs-1.85.90[cairo(+)]
 	>=gui-libs/gtk-4:4[X?,introspection,wayland?]
 	>=x11-wm/mutter-49.0:0/17[introspection,test?]
 	>=sys-auth/polkit-0.120_p20220509[introspection]
@@ -93,7 +93,6 @@ RDEPEND="${DEPEND}
 	gnome-base/librsvg:2[introspection]
 	gui-libs/libadwaita:1[introspection]
 
-	>=gnome-base/gnome-session-2.91.91
 	>=gnome-base/gnome-settings-daemon-3.8.3
 
 	x11-misc/xdg-utils
@@ -109,6 +108,8 @@ RDEPEND="${DEPEND}
 
 	sys-apps/xdg-desktop-portal-gnome
 "
+#	>=gnome-base/gnome-session-2.91.91
+
 # avoid circular dependency, see bug #546134
 PDEPEND="
 	>=gnome-base/gdm-3.5[introspection(+)]

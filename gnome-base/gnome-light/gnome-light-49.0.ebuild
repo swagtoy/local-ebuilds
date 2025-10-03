@@ -21,7 +21,6 @@ KEYWORDS="amd64 ~arm ~arm64 ~ppc64 ~riscv x86"
 RDEPEND="
 	>=gnome-base/gnome-core-libs-${PV}[cups?]
 
-	>=gnome-base/gnome-session-45.0
 	>=gnome-base/gnome-settings-daemon-45.0[cups?]
 	>=gnome-base/gnome-control-center-45.1[cups?]
 
@@ -42,6 +41,7 @@ RDEPEND="
 		>=gui-apps/gnome-console-45.0
 	)
 "
+#	>=gnome-base/gnome-session-45.0
 DEPEND=""
 PDEPEND=">=gnome-base/gvfs-1.52.1"
 BDEPEND=""

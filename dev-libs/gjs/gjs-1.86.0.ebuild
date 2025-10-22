@@ -18,7 +18,7 @@ RDEPEND="
 	>=dev-libs/glib-2.86.0:2
 	dev-libs/libffi:=
 	>=dev-libs/gobject-introspection-1.86.0:=
-	>=dev-lang/spidermonkey-140.1.0:140
+	>=dev-lang/spidermonkey-140.3.0:140
 	x11-libs/cairo[X,glib]
 	readline? ( sys-libs/readline:0= )
 "
@@ -27,15 +27,12 @@ DEPEND="${RDEPEND}
 	test? (
 		sys-apps/dbus
 		>=x11-libs/gtk+-3.20:3[introspection]
+		>=x11-libs/gtk-4[introspection]
 	)
 "
 BDEPEND="
 	virtual/pkgconfig
 "
-
-#PATCHES=(
-#	"${FILESDIR}"/${PN}-1.84.2-tests-gtk4warnings.patch
-#)
 
 src_configure() {
 	append-cppflags -DG_DISABLE_CAST_CHECKS

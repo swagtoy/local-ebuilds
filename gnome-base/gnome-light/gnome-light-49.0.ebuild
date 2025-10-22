@@ -1,4 +1,4 @@
-# Copyright 1999-2024 Gentoo Authors
+# Copyright 1999-2025 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=8
@@ -21,6 +21,7 @@ KEYWORDS="amd64 ~arm ~arm64 ~ppc64 ~riscv x86"
 RDEPEND="
 	>=gnome-base/gnome-core-libs-${PV}[cups?]
 
+	>=gnome-base/gnome-session-49.0
 	>=gnome-base/gnome-settings-daemon-45.0[cups?]
 	>=gnome-base/gnome-control-center-45.1[cups?]
 
@@ -41,7 +42,6 @@ RDEPEND="
 		>=gui-apps/gnome-console-45.0
 	)
 "
-#	>=gnome-base/gnome-session-45.0
 DEPEND=""
 PDEPEND=">=gnome-base/gvfs-1.52.1"
 BDEPEND=""

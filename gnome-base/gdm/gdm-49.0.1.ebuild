@@ -21,7 +21,7 @@ SLOT="0"
 
 KEYWORDS="~amd64 ~arm ~arm64 ~loong ~ppc64 ~riscv ~x86"
 
-IUSE="accessibility audit debug bluetooth-sound branding elogind fprint plymouth selinux systemd tcpd test wayland +X"
+IUSE="audit debug bluetooth-sound branding elogind fprint plymouth selinux systemd tcpd test wayland +X"
 
 RESTRICT="!test? ( test )"
 REQUIRED_USE="^^ ( elogind systemd ) || ( wayland X )"
@@ -75,10 +75,6 @@ RDEPEND="${COMMON_DEPEND}
 	>=gnome-base/gnome-shell-3.1.90
 	x11-apps/xhost
 
-	accessibility? (
-		>=app-accessibility/orca-3.10
-		gnome-extra/mousetweaks
-	)
 	fprint? ( sys-auth/fprintd[pam] )
 "
 #	>=gnome-base/gnome-session-3.6
@@ -117,10 +113,6 @@ src_prepare() {
 	# Show logo when branding is enabled
 	use branding && eapply "${FILESDIR}/${PN}-3.30.3-logo.patch"
 	eapply "${FILESDIR}/gdm-pam-openrc.patch"
-
-	#sed -i 's|have_userdb = false|have_userdb = true|g' meson.build
-	#sed -i 's|greeter_uid_min = 0|greeter_uid_min = 60578|g' meson.build
-	#sed -i 's|greeter_uid_max = 0|greeter_uid_max = 100000|g' meson.build
 }
 
 src_configure() {
@@ -174,10 +166,6 @@ src_configure() {
 
 src_install() {
 	meson_src_install
-
-	#if ! use accessibility ; then
-	#	rm "${ED}"/usr/share/gdm/greeter/autostart/orca-autostart.desktop || die
-	#fi
 
 	if ! use bluetooth-sound ; then
 		# Workaround https://gitlab.freedesktop.org/pulseaudio/pulseaudio/merge_requests/10

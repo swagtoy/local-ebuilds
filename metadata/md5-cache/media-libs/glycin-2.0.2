@@ -1,0 +1,16 @@
+BDEPEND=|| ( dev-lang/vala:0.56 ) || ( >=dev-lang/rust-bin-1.85:* >=dev-lang/rust-1.85:* ) app-arch/xz-utils >=app-portage/elt-patches-20250306 >=dev-build/meson-1.2.3 app-alternatives/ninja dev-build/meson-format-array
+DEFINED_PHASES=compile configure install postinst postrm preinst prepare setup test unpack
+DEPEND=dev-libs/glib:2 media-libs/libpng:= media-libs/libjpeg-turbo:= >=media-libs/lcms-2.12:= media-libs/openjpeg:= gnome-base/librsvg:= media-libs/glycin-loaders:2[heif,jpegxl] dev-lang/vala virtual/pkgconfig
+DESCRIPTION=Sandboxed and extendable image loading library
+EAPI=8
+HOMEPAGE=https://gitlab.gnome.org/GNOME/glycin
+IDEPEND=dev-util/desktop-file-utils x11-misc/shared-mime-info
+INHERIT=cargo gnome.org gnome2 meson vala
+IUSE=test +introspection debug
+KEYWORDS=~amd64
+LICENSE=Apache-2.0 Apache-2.0-with-LLVM-exceptions BSD-2 BSD GPL-3+ IJG ISC LGPL-3+ MIT Unicode-3.0 || ( LGPL-2.1+ MPL-2.0 )
+RDEPEND=dev-libs/glib:2 media-libs/libpng:= media-libs/libjpeg-turbo:= >=media-libs/lcms-2.12:= media-libs/openjpeg:= gnome-base/librsvg:= media-libs/glycin-loaders:2[heif,jpegxl]
+SLOT=0
+SRC_URI=mirror://gnome/sources/glycin/2.0/glycin-2.0.2.tar.xz https://github.com/gentoo-crate-dist/glycin/releases/download/2.0.2/glycin-2.0.2-crates.tar.xz https://crates.io/api/v1/crates/glycin/3.0.1/download -> glycin-3.0.1.crate https://crates.io/api/v1/crates/glycin-common/1.0.0/download -> glycin-common-1.0.0.crate https://crates.io/api/v1/crates/glycin-utils/4.0.2/download -> glycin-utils-4.0.2.crate
+_eclasses_=toolchain-funcs	a0b29008c671a362b505f96fa80ce9c0	flag-o-matic	a7afe42e95fb46ce9691605acfb24672	multiprocessing	1e32df7deee68372153dca65f4a7c21f	rust	67553b9b0296e5b691a6f6efdce65271	rust-toolchain	76468983281b0a7fc167ca224f84ecfd	cargo	a1af74aa9e34cd73aeac642cd0dd54d8	gnome.org	e1b4f392dbfedfb8974b71b017937f08	libtool	c81bd096be5f4c82f4e8f156ef112402	xdg-utils	42869b3c8d86a70ef3cf75165a395e09	gnome2-utils	a8cf148ec7f5ae0b1f1d33ae5f7f9e88	xdg	3ef49a87c52c8b77c476351195dfe575	gnome2	26fd01914b36038dc8e964ff4bd03a95	ninja-utils	2df4e452cea39a9ec8fb543ce059f8d6	python-utils-r1	0b620dd604ab8af0bc9cd1bcc66d4f7c	meson	99466844dd8d4fcfb07578a76f5a9922	vala	e477903dbe0105930c51f170a592dc16
+_md5_=ba4ebfc0171f55e0ab3b878a989e7693

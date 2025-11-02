@@ -57,6 +57,7 @@ PATCHES=(
 	# https://gitlab.gnome.org/GNOME/epiphany/-/issues/2209
 	# https://gitlab.gnome.org/GNOME/epiphany/-/issues/2271
 	"${FILESDIR}/${PN}-46.2-disable-web-view-test.patch"
+	"${FILESDIR}/${PN}-49.1-Revert-Also-enable-fatal-criticals-in-the-web-proces.patch"
 )
 
 src_prepare() {

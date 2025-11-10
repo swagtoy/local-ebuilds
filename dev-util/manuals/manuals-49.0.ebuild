@@ -20,7 +20,9 @@ RDEPEND="
 	>=dev-libs/glib-2.78:2
 	>=gui-libs/gtk-4.14:4[introspection]
 	>=gui-libs/libadwaita-1.7.0:1
+	>=dev-libs/foundry-1.0.0:=
 	>=gui-libs/libpanel-1.6.0:1
+	>=dev-libs/libpanel-1.6.0:1
 	>=dev-libs/libdex-0.4:=
 	>=dev-libs/gom-0.4:=
 	webkit? ( >=net-libs/webkit-gtk-2.42.0:6=[introspection] )

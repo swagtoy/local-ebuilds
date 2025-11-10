@@ -13,6 +13,7 @@ HOMEPAGE="https://apps.gnome.org/Showtime/ https://gitlab.gnome.org/GNOME/showti
 LICENSE="GPL-3+"
 SLOT="0"
 KEYWORDS="~amd64"
+IUSE="+python"
 
 REQUIRED_USE="
 	${PYTHON_REQUIRED_USE}
